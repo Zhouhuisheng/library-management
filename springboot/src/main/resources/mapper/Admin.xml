@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.huishengzhou.mapper.AdminMapper">
+    <select id="list" resultType="cn.huishengzhou.pojo.Admin">
+        select * from admin;
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="listByCondition" resultType="cn.huishengzhou.pojo.Admin">
+        select
+            *
+        from
+        admin
+        <where>
+            <if test="userName != null and userName != '' ">
+                and username like concat('%', #{userName}, '%')
+            </if>
+
+            <if test="email != null and email != '' ">
+                and email like concat('%', #{email}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="add">
+        insert into
+            admin(username, password, email, createtime, updatetime)
+        values(
+               #{userName}, #{password}, #{email}, #{createTime}, #{updateTime}
+               );
+    </insert>
+
+    <select id="selectById" resultType="cn.huishengzhou.pojo.Admin">
+        select
+            *
+        from
+            admin
+        where
+            id = #{id}
+    </select>
+
+    <update id="update">
+        update
+            admin
+        set
+            username = #{userName}, password = #{password}, email = #{email}, updatetime = #{updateTime}
+        where
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from admin where id = #{id}
+    </delete>
+
+    <select id="getByUsernameAndPassword" resultType="cn.huishengzhou.pojo.Admin">
+        select * from admin where username = #{userName} and password = #{password}
+    </select>
+</mapper>

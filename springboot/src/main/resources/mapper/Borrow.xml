@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.huishengzhou.mapper.BorrowMapper">
+    <select id="list" resultType="cn.huishengzhou.pojo.Borrow">
+        select * from borrow;
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="listByCondition" resultType="cn.huishengzhou.pojo.Borrow">
+        select
+            *
+        from
+        borrow
+        <where>
+            <if test="bookName != null and bookName != '' ">
+                and book_name like concat('%', #{bookName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="add">
+        insert into
+            borrow(book_id, book_name, user_id, user_name, createtime, updatetime)
+        values(
+               #{bookId}, #{bookName}, #{userId}, #{userName}, #{createTime}, #{updateTime}
+               );
+    </insert>
+
+    <select id="selectById" resultType="cn.huishengzhou.pojo.Borrow">
+        select
+            *
+        from
+            borrow
+        where
+            id = #{id}
+    </select>
+
+    <update id="update">
+        update
+            borrow
+        set
+            book_id = #{bookId}, book_name = #{bookName}, user_id = #{userId},
+            user_name = #{userName}, updatetime = #{updateTime}
+        where
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from borrow where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.huishengzhou.mapper.CategoryMapper">
+    <select id="list" resultType="cn.huishengzhou.pojo.Category">
+        select * from category;
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="listByCondition" resultType="cn.huishengzhou.pojo.Category">
+        select
+            *
+        from
+            category
+        <where>
+            <if test="name != null and name != '' ">
+                and name like concat('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="add">
+        insert into
+            category(name, remark, pid, createtime, updatetime)
+        values(
+               #{name}, #{remark}, #{pid}, #{createTime}, #{updateTime}
+               );
+    </insert>
+
+    <select id="selectById" resultType="cn.huishengzhou.pojo.Category">
+        select
+            *
+        from
+            category
+        where
+            id = #{id}
+    </select>
+
+    <update id="update">
+        update
+            category
+        set
+            name = #{name}, remark = #{remark}, pid = #{pid}, updatetime = #{updateTime}
+        where
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from category where id = #{id}
+    </delete>
+</mapper>

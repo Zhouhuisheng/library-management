@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    active: dev
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  # 开启数据库字段下划线转驼峰
+
+---
+# 开发环境
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library-management?serverTimezone=GMT%2b8 # 北京时间
+    username: root
+    password: 88888888
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 88888888
+server:
+  port: 8081
+swagger:
+  basePackage: cn.huishengzhou.controller
+  enable: true
+
+---
+# 生产环境
+spring:
+  config:
+    activate:
+      on-profile: pro
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://huishengzhou.cn:3306/library-management?serverTimezone=GMT%2b8 # 北京时间
+    username: root
+    password: 88888888
+  redis:
+    host: huishengzhou
+    port: 6379
+    password: 88888888
+server:
+  port: 8081
+  basePackage: cn.huishengzhou.controller
+  enable: false

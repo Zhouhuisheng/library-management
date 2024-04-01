@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.huishengzhou.mapper.BookMapper">
+    <select id="list" resultType="cn.huishengzhou.pojo.Book">
+        select * from book;
+    </select>
+
+    <select id="listByStatus" resultType="cn.huishengzhou.pojo.Book">
+        select * from book where status = #{status};
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="listByCondition" resultType="cn.huishengzhou.pojo.Book">
+        select
+            *
+        from
+        book
+        <where>
+            <if test="name != null and name != '' ">
+                and name like concat('%', #{name}, '%')
+            </if>
+
+            <if test="author != null and author != '' ">
+                and author like concat('%', #{author}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="add">
+        insert into
+            book(name, description, author, category, createtime, updatetime)
+        values(
+               #{name}, #{description}, #{author}, #{category}, #{createTime}, #{updateTime}
+               );
+    </insert>
+
+    <select id="selectById" resultType="cn.huishengzhou.pojo.Book">
+        select
+            *
+        from
+            book
+        where
+            id = #{id}
+    </select>
+
+    <update id="update">
+        update
+            book
+        set
+            name = #{name}, description = #{description}, author = #{author},
+            category = #{category}, status = #{status}, updatetime = #{updateTime}
+        where
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from book where id = #{id}
+    </delete>
+</mapper>
